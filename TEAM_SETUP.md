@@ -2,16 +2,18 @@
 
 Follow this once to get the tracker running on your laptop. It takes about 2 minutes.
 
-## 1. Install
+## 1. Download and install
 
-You'll get one file from Hitarth, matching your OS:
+Downloads: **https://github.com/HitarthTrivedi/ak-tracker/releases/tag/v1.1.0**
+
+Pick the file matching your OS:
 
 | OS | File |
 |---|---|
-| Windows | `AK Tracker Setup 1.1.0.exe` |
-| macOS (Apple Silicon) | `AK Tracker-1.1.0-arm64.dmg` |
-| Linux (AppImage) | `AK Tracker-1.1.0.AppImage` |
-| Linux (Debian/Ubuntu) | `ak-tracker_1.1.0_amd64.deb` |
+| Windows | [`AK.Tracker.Setup.1.1.0.exe`](https://github.com/HitarthTrivedi/ak-tracker/releases/download/v1.1.0/AK.Tracker.Setup.1.1.0.exe) |
+| macOS (Apple Silicon) | [`AK.Tracker-1.1.0-arm64.dmg`](https://github.com/HitarthTrivedi/ak-tracker/releases/download/v1.1.0/AK.Tracker-1.1.0-arm64.dmg) |
+| Linux (AppImage) | [`AK.Tracker-1.1.0.AppImage`](https://github.com/HitarthTrivedi/ak-tracker/releases/download/v1.1.0/AK.Tracker-1.1.0.AppImage) |
+| Linux (Debian/Ubuntu) | [`ak-tracker_1.1.0_amd64.deb`](https://github.com/HitarthTrivedi/ak-tracker/releases/download/v1.1.0/ak-tracker_1.1.0_amd64.deb) |
 
 **Windows**
 1. Double-click the `.exe`.
@@ -37,9 +39,9 @@ chmod +x "AK Tracker-1.1.0.AppImage"
 sudo dpkg -i ak-tracker_1.1.0_amd64.deb
 ```
 
-## 2. First launch
+## 2. First launch — connect to the team database
 
-The app connects straight to the team's shared database — there's no setup screen. You'll land directly on the **login page**.
+On first open you'll see a **"Connect to your team"** screen asking for a **database connection string**. This is not public — ask Hitarth for it directly (chat/call), never post it anywhere public. Paste it in and click **Connect**. The app will relaunch straight into the login page; you only do this once.
 
 ## 3. Log in
 
