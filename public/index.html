@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AK Tracker · Alpha.Kore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%237c5cff'/><text x='16' y='22' font-size='15' font-family='Arial' font-weight='700' text-anchor='middle' fill='white'>AK</text></svg>" />
+</head>
+<body>
+  <!-- ============ AUTH ============ -->
+  <section id="auth" class="auth hidden">
+    <div class="auth-card">
+      <div class="brand big"><span class="logo">AK</span><div><b>AK Tracker</b><small>Alpha.Kore team board</small></div></div>
+      <div class="auth-tabs">
+        <button data-auth="login" class="active">Log in</button>
+        <button data-auth="register">Register</button>
+      </div>
+      <form id="loginForm" class="stack">
+        <label>Username<input name="username" autocomplete="username" required /></label>
+        <label>Password<input name="password" type="password" autocomplete="current-password" required /></label>
+        <button class="btn primary wide" type="submit">Log in</button>
+      </form>
+      <form id="registerForm" class="stack hidden">
+        <label>Display name<input name="display_name" placeholder="e.g. Parth" required /></label>
+        <label>Username<input name="username" autocomplete="username" required /></label>
+        <label>Password<input name="password" type="password" autocomplete="new-password" minlength="6" required /></label>
+        <label>Team invite code<input name="code" required /></label>
+        <button class="btn primary wide" type="submit">Create account</button>
+      </form>
+      <p id="authError" class="error"></p>
+    </div>
+  </section>
+
+  <!-- ============ APP ============ -->
+  <section id="app" class="hidden">
+    <header class="topbar"><div class="topbar-in">
+      <div class="brand">AK Tracker</div>
+      <nav class="tabs">
+        <button data-view="dashboard" class="active">Home</button>
+        <button data-view="tasks">Tasks</button>
+        <button data-view="timeline">History</button>
+      </nav>
+      <div class="top-right">
+        <span id="connDot" class="conn" title="Live sync"></span>
+        <button class="link-btn" id="newTaskBtn">+ New task</button>
+        <div class="menu-wrap">
+          <button class="me-chip" id="meChip"></button>
+          <div class="menu hidden" id="meMenu">
+            <button id="hoursBtn">My working hours</button>
+            <button id="pwBtn">Change password</button>
+            <button id="logoutBtn">Log out</button>
+          </div>
+        </div>
+      </div>
+    </div></header>
+
+    <main>
+      <!-- DASHBOARD -->
+      <div id="view-dashboard" class="view home">
+        <section id="attn" class="hidden">
+          <div class="sec-h attn">Needs your attention · <span id="attnCount"></span></div>
+          <div class="table-wrap">
+            <table class="tbl attn stackable g-attn">
+              <thead><tr><th style="width:110px">From</th><th>Message</th><th style="width:240px">Task · Project</th><th style="width:70px">When</th><th style="width:90px"></th></tr></thead>
+              <tbody id="attnBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <div class="sec-h">You</div>
+          <div class="me-bar">
+            <input id="myNote" maxlength="500" aria-label="What are you doing right now?" placeholder="What are you doing right now?" />
+            <select id="myTask" aria-label="Task"><option value="">No task</option></select>
+            <button id="liveBtn" class="live-btn" type="button"><span class="dot"></span><span class="lbl">Go live</span></button>
+          </div>
+        </section>
+
+        <section>
+          <div class="sec-h">Team · <span id="liveCount"></span></div>
+          <div class="table-wrap">
+            <table class="tbl stackable g-team" id="teamTable">
+              <thead><tr><th style="width:130px">Person</th><th style="width:110px">Status</th><th>Working on</th><th style="width:240px">Task · Project</th><th style="width:90px"></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <div class="sec-h">What's new<span id="newCount"></span><button class="link-btn right" id="seenAllBtn" type="button">Mark all seen</button></div>
+          <div class="table-wrap">
+            <table class="tbl stackable g-new" id="newTable">
+              <thead><tr><th style="width:70px">When</th><th style="width:110px">Who</th><th style="width:130px">Did</th><th style="width:240px">Task · Project</th><th>Note</th><th style="width:60px"></th></tr></thead>
+              <tbody id="newList"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <div id="view-tasks" class="view hidden">
+        <section class="panel">
+          <div class="panel-head">
+            <h2>All tasks</h2>
+            <div class="filters">
+              <input id="fSearch" placeholder="Search…" />
+              <select id="fProject"><option value="">All projects</option></select>
+              <select id="fOwner"><option value="">Everyone</option></select>
+              <select id="fPriority"><option value="">Any priority</option><option value="critical">Critical</option><option value="medium">Medium</option><option value="low">Low</option></select>
+              <select id="fStatus"><option value="open">Open (not done)</option><option value="">All statuses</option><option value="todo">To do</option><option value="in_progress">In progress</option><option value="blocked">Blocked</option><option value="done">Done</option></select>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="tbl clickable" id="tasksTable">
+              <thead><tr>
+                <th data-sort="priority">Priority</th><th data-sort="title">Task</th><th data-sort="project">Project</th><th data-sort="owner">Owner</th>
+                <th data-sort="status">Status</th><th>Heads-up</th><th data-sort="created_at">Started</th><th data-sort="updated_at">Last update</th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <p class="muted small" id="tasksCount"></p>
+        </section>
+      </div>
+
+      <!-- TIMELINE -->
+      <div id="view-timeline" class="view hidden">
+        <section class="panel">
+          <div class="panel-head">
+            <h2>History</h2>
+            <div class="filters">
+              <div class="seg" id="tlMode">
+                <button data-mode="all" class="active">All</button>
+                <button data-mode="mentions">Mentions me</button>
+                <button data-mode="new">New since last visit</button>
+              </div>
+              <select id="tlUser"><option value="">Everyone</option></select>
+              <select id="tlProject"><option value="">All projects</option></select>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="tbl" id="timelineTable">
+              <thead><tr><th>When</th><th>Who</th><th>Task · Project</th><th>Action</th><th>Note</th><th>Tagged</th><th>Heads-up</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+  </section>
+
+  <!-- ============ TASK DRAWER ============ -->
+  <div id="drawerBg" class="drawer-bg hidden"></div>
+  <aside id="drawer" class="drawer hidden"></aside>
+
+  <!-- ============ MODAL ============ -->
+  <div id="modalBg" class="modal-bg hidden"><div class="modal" id="modal"></div></div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

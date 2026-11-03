@@ -1,0 +1,75 @@
+{
+  "name": "ak-tracker",
+  "productName": "AK Tracker",
+  "version": "1.1.0",
+  "description": "Alpha.Kore team tracker \u2014 who is working on what, live status and heads-ups",
+  "author": {
+    "name": "Alpha.Kore",
+    "email": "team@example.com"
+  },
+  "main": "desktop/main.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "desktop": "electron .",
+    "dist": "electron-builder --publish never",
+    "dist:win": "electron-builder --win --publish never",
+    "dist:mac": "electron-builder --mac --publish never",
+    "dist:linux": "electron-builder --linux --publish never"
+  },
+  "dependencies": {
+    "pg": "^8.13.1",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "electron": "^38.0.0",
+    "electron-builder": "^26.0.0"
+  },
+  "build": {
+    "appId": "com.alphakore.tracker",
+    "productName": "AK Tracker",
+    "files": [
+      "server.js",
+      "public/**",
+      "desktop/**",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "runAfterFinish": true
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.productivity",
+      "icon": "build/icon.png"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Office",
+      "icon": "build/icon.png",
+      "maintainer": "Alpha.Kore",
+      "syncDesktopName": true
+    }
+  },
+  "desktopName": "ak-tracker.desktop",
+  "homepage": "https://example.com/ak-tracker"
+}
