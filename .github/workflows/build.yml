@@ -38,7 +38,8 @@ jobs:
       - run: npm ci
       - name: Bake in the shared database connection
         shell: bash
-        run: node -e "require('fs').writeFileSync('desktop/config.json', JSON.stringify({dbUrl: process.env.DB_URL}))"
+        run: |
+          node -e "require('fs').writeFileSync('desktop/config.json', JSON.stringify({dbUrl: process.env.DB_URL}))"
         env:
           DB_URL: ${{ secrets.DATABASE_URL }}
       - run: ${{ matrix.cmd }}
